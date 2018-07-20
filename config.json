@@ -1,0 +1,7 @@
+{
+  "appId": "OSGiFZBrXxNLjN3gYDPsgi7P4a0j6fzcc2iaCKac",
+  "masterKey": "k8xm42UVuIP51wR2DswLY8NL3zgWfev8AuKUUjp3",
+  "appName": "StatusBoard",
+  "cloud": "./cloud/main",
+  "databaseURI": "mongodb://status-super:DFGyp>r38ZzudNJekXrV5r@ds143451.mlab.com:43451/status-board"
+}
