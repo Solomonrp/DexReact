@@ -7,7 +7,7 @@ const http = require('https');
 // const https = require('http');
 const fs = require('fs');
 
-// const PROD_URL="";
+const PROD_URL="https://dexboardapi.dex.company:1337/parse";
 const LOCAL_URL="http://localhost:1337/parse"
 
 var api = new ParseServer({
