@@ -2,7 +2,7 @@ var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var ParseDashboard = require('parse-dashboard');
 
-// const http = require('https');
+const http = require('https');
 // const http = require('https');
 // const https = require('http');
 const fs = require('fs');
@@ -48,16 +48,16 @@ var port = 1337;
 
 app.use(require('helmet')());
 var options={};
-// options = {
-//     cert: fs.readFileSync('/etc/letsencrypt/live/monitorapi.dex.ventures/fullchain.pem'),
-//     key: fs.readFileSync('/etc/letsencrypt/live/monitorapi.dex.ventures/privkey.pem')
-// };
+options = {
+    cert: fs.readFileSync('/etc/letsencrypt/live/dexboardapi.dex.company/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/dexboardapi.dex.company/privkey.pem')
+};
 
 
-// const server = http.createServer(options, app).listen(port, function() {
-// 	console.log('Prospct.in API running on port ' + port + '.');
-// });
-
-app.listen(port, function() {
-    console.log('Quiz.dex API running on port ' + port + '.');
+const server = http.createServer(options, app).listen(port, function() {
+	console.log('Prospct.in API running on port ' + port + '.');
 });
+
+// app.listen(port, function() {
+//     console.log('Quiz.dex API running on port ' + port + '.');
+// });
