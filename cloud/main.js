@@ -7,9 +7,9 @@ Parse.Cloud.define("getUserByID", function (request, response) {
 });
 
 Parse.Cloud.define("getProjectsByUserID", function (request, response) {
-    const user=request.user;
-    var query = new Parse.Query(user);
-    query.include("projects");
+    const user = request.user;
+    var relation = user.relation('projects');
+    var query = relation.query();
     query.find({
         success: function(projects) {
             console.log(projects);
@@ -80,6 +80,36 @@ Parse.Cloud.define("getStoryTasksByProjectID", function (request, response) {
             response.error(error);  
         }
     })
+});
+
+Parse.Cloud.define("getProjectProjectBar", function (request, response) {
+    var pipeline = {
+        group: { objectId: null, total: { $sum: '$story_points' } }
+    };
+    var query = new Parse.Query("UserStory");
+    query.equalTo("project", request.params.id);
+    query.aggregate(pipeline).then(function(res){
+        console.log(res);
+        response.success(res);
+    }).catch(function(error) {
+        console.log(error);
+        response.error(error);  
+    });
+});
+
+Parse.Cloud.define("getProjectProjectBarProgress", function (request, response) {
+    var pipeline = {
+        group: { objectId: null, total: { $sum: '$story_points' } }
+    };
+    var query = new Parse.Query("UserStory");
+    query.equalTo("project", request.params.id);
+    query.aggregate(pipeline).then(function(res){
+        console.log(res);
+        response.success(res);
+    }).catch(function(error) {
+        console.log(error);
+        response.error(error);  
+    });
 });
 
 // Funcionalidade
