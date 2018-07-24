@@ -8,19 +8,19 @@ const http = require('https');
 const fs = require('fs');
 
 const PROD_URL="https://dexboardapi.dex.company:1337/parse";
-const LOCAL_URL="http://localhost:1337/parse"
+const LOCAL_URL="http://localhost:1337/parse";
 
 var api = new ParseServer({
   databaseURI: "mongodb://status-super:r38ZzudNJekXrV5r@ds143451.mlab.com:43451/status-board",
   cloud: __dirname + '/cloud/main.js',
   appId: 'OSGiFZBrXxNLjN3gYDPsgi7P4a0j6fzcc2iaCKac',
   masterKey: 'k8xm42UVuIP51wR2DswLY8NL3zgWfev8AuKUUjp3',
-  serverURL: LOCAL_URL
+  serverURL: PROD_URL
 });
 
 var dashboard = new ParseDashboard({
 	"apps": [{
-		"serverURL": LOCAL_URL,
+		"serverURL": PROD_URL,
 		"appId": 'OSGiFZBrXxNLjN3gYDPsgi7P4a0j6fzcc2iaCKac',
 		"masterKey": 'k8xm42UVuIP51wR2DswLY8NL3zgWfev8AuKUUjp3',
 		"appName": "Status Board" 
