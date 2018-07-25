@@ -112,6 +112,22 @@ Parse.Cloud.define("getProjectProgressByProjectId", async function (request, res
     }
 });
 
+Parse.Cloud.define("getProjectStoryPointsByProjectID", function (request, response) {
+    var pipeline = [
+        {match:{project: request.params.id}},
+        {group: { objectId: null, total: { $sum: '$story_points' } } }
+    ];
+    var query = new Parse.Query("UserStory");
+    query.equalTo("project", request.params.id);
+    query.aggregate(pipeline).then(function(res){
+        console.log(res);
+        response.success(res);
+    }).catch(function(error) {
+        console.log(error);
+        response.error(error);  
+    });
+});
+
 // Funcionalidade
 Parse.Cloud.define("getFeatureByID", function (request, response) {
     var query = new Parse.Query("Feature");
@@ -203,9 +219,10 @@ Parse.Cloud.define("getFeatureProgressByFeatureId", async function (request, res
 });
 
 Parse.Cloud.define("getFeatureStoryPointsByFeatureID", function (request, response) {
-    var pipeline = {
-        group: { objectId: null, total: { $sum: '$story_points' } }
-    };
+    var pipeline = [
+        {match:{feature: request.params.id}},
+        {group: { objectId: null, total: { $sum: '$story_points' } } }
+    ];
     var query = new Parse.Query("UserStory");
     query.equalTo("project", request.params.id);
     query.aggregate(pipeline).then(function(res){
