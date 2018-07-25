@@ -103,9 +103,9 @@ Parse.Cloud.define("getProjectProgressByProjectId", async function (request, res
         for (let i=0; i<countTotal.length; i++){
             totalDone=totalDone+countDone[i]['countDone'];
             totalTasks=totalTasks+countTotal[i]['countTotal'];
-            progress[countTotal[i]['objectId']]=countDone[i]['countDone'] / countTotal[i]['countTotal'];
+            progress[countTotal[i]['objectId']]=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(4)*100;
         }
-        progress['Total']=totalDone/totalTasks;
+        progress['Total']=(totalDone/totalTasks).toFixed(4)*100;
         response.success(progress);
     } catch(err){
         response.error(err);
@@ -193,9 +193,9 @@ Parse.Cloud.define("getFeatureProgressByFeatureId", async function (request, res
         for (let i=0; i<countTotal.length; i++){
             totalDone=totalDone+countDone[i]['countDone'];
             totalTasks=totalTasks+countTotal[i]['countTotal'];
-            progress[countTotal[i]['objectId']]=countDone[i]['countDone'] / countTotal[i]['countTotal'];
+            progress[countTotal[i]['objectId']]=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(4)*100;
         }
-        progress['Total']=totalDone/totalTasks;
+        progress['Total']=(totalDone/totalTasks).toFixed(4)*100;
         response.success(progress);
     } catch(err){
         response.error(err);
