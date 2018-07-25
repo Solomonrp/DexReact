@@ -253,7 +253,7 @@ Parse.Cloud.define("getFeatureStoryPointsByFeatureID", function (request, respon
     var query = new Parse.Query("UserStory");
     query.equalTo("project", request.params.id);
     query.aggregate(pipeline).then(function(res){
-        console.log(res);
+        console.log(res[0].total.toFixed(1));
         response.success(res);
     }).catch(function(error) {
         console.log(error);
@@ -312,42 +312,57 @@ Parse.Cloud.define("getStoryTaskByID", function (request, response) {
     });
 });
 
-async function teste(){
-    var pipelineDone=[
-        {match:{project: 'LN8U15gPNj'}},
-        {group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$task_status", 1, 0] }}}}
-    ]
-    var pipelineTotal=[
-        {match:{project: 'LN8U15gPNj'}},
-        {group: {objectId: "$task_type",countTotal: {$sum: 1}},}
-    ]
-    var progress ={};
-    var p=0;
-    progress.tasks=[];
-    var progressTaskObj;
-    var totalDone=0;
-    var totalTasks=0;
-    var query = new Parse.Query("StoryTask");
-    try{
-        var countDone=await query.aggregate(pipelineDone);
-        var countTotal= await query.aggregate(pipelineTotal);
-        for (let i=0; i<countTotal.length; i++){
-            p=0;
-            progressTaskObj={};
+// async function teste(){
+    // var pipelineDone=[
+    //     {match:{project: 'LN8U15gPNj'}},
+    //     {group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$task_status", 1, 0] }}}}
+    // ]
+    // var pipelineTotal=[
+    //     {match:{project: 'LN8U15gPNj'}},
+    //     {group: {objectId: "$task_type",countTotal: {$sum: 1}},}
+    // ]
+    // var progress ={};
+    // var p=0;
+    // progress.tasks=[];
+    // var progressTaskObj;
+    // var totalDone=0;
+    // var totalTasks=0;
+    // var query = new Parse.Query("StoryTask");
+    // try{
+    //     var countDone=await query.aggregate(pipelineDone);
+    //     var countTotal= await query.aggregate(pipelineTotal);
+    //     for (let i=0; i<countTotal.length; i++){
+    //         p=0;
+    //         progressTaskObj={};
 
-            totalDone=totalDone+countDone[i]['countDone'];
-            totalTasks=totalTasks+countTotal[i]['countTotal'];
+    //         totalDone=totalDone+countDone[i]['countDone'];
+    //         totalTasks=totalTasks+countTotal[i]['countTotal'];
 
-            taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(2);
-            progressTaskObj.name=countTotal[i]['objectId'];
-            progressTaskObj.value=taskProgress;
+    //         taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(2);
+    //         progressTaskObj.name=countTotal[i]['objectId'];
+    //         progressTaskObj.value=taskProgress;
 
-            progress.tasks.push(progressTaskObj)
-        }
-        progress['total']=(totalDone/totalTasks).toFixed(2);
-        console.log(progress)
-    } catch(err){
-        console.log(err)
-    }
-}
-teste();
+    //         progress.tasks.push(progressTaskObj)
+    //     }
+    //     progress['total']=(totalDone/totalTasks).toFixed(2);
+    //     console.log(progress)
+    // } catch(err){
+    //     console.log(err)
+    // }
+
+
+//     var pipeline = [
+//         {match:{feature: 'bVCJ0KZdQ6'}},
+//         {group: { objectId: null, total: { $sum: '$story_points' } } }
+//     ];
+//     var query = new Parse.Query("UserStory");
+//     // query.equalTo("project", request.params.id);
+//     query.aggregate(pipeline).then(function(res){
+//         console.log(res);
+//         // response.success(res);
+//     }).catch(function(error) {
+//         console.log(error);
+//         // response.error(error);  
+//     });
+// }
+// teste();
