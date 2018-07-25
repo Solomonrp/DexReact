@@ -118,7 +118,9 @@ Parse.Cloud.define("getProjectProgressByProjectId", async function (request, res
         }
         progress['total']=(totalDone/totalTasks).toFixed(2);
         console.log(progress)
+        response.success(progress);
     } catch(err){
+        response.error(err);
         console.log(err)
     }
 });
@@ -234,9 +236,11 @@ Parse.Cloud.define("getFeatureProgressByFeatureId", async function (request, res
             progress.tasks.push(progressTaskObj)
         }
         progress['total']=(totalDone/totalTasks).toFixed(2);
-        console.log(progress)
+        response.success(progress);
+        console.log(progress);
     } catch(err){
-        console.log(err)
+        response.error(err);
+        console.log(err);
     }
 });
 
