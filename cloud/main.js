@@ -40,7 +40,7 @@ Parse.Cloud.define("getProjectByID", function (request, response) {
 Parse.Cloud.define("getFeaturesByProjectID", function (request, response) {
     var query = new Parse.Query("Feature");
     query.equalTo("project", request.params.id);
-    query.descending("due_date");
+    query.ascending("due_date");
     query.find({
         success: function(features) {
             console.log(features);
