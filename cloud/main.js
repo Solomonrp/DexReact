@@ -110,13 +110,13 @@ Parse.Cloud.define("getProjectProgressByProjectId", async function (request, res
             totalDone=totalDone+countDone[i]['countDone'];
             totalTasks=totalTasks+countTotal[i]['countTotal'];
 
-            taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(2);
+            taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal']*100).toFixed(2);
             progressTaskObj.name=countTotal[i]['objectId'];
             progressTaskObj.value=taskProgress;
 
-            progress.tasks.push(progressTaskObj)
+            progress.tasks.push(progressTaskObj);
         }
-        progress['total']=(totalDone/totalTasks).toFixed(2);
+        progress['total']=(totalDone/totalTasks*100).toFixed(2);
         console.log(progress)
         response.success(progress);
     } catch(err){
@@ -229,13 +229,13 @@ Parse.Cloud.define("getFeatureProgressByFeatureId", async function (request, res
             totalDone=totalDone+countDone[i]['countDone'];
             totalTasks=totalTasks+countTotal[i]['countTotal'];
 
-            taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(2);
+            taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal'] * 100).toFixed(2);
             progressTaskObj.name=countTotal[i]['objectId'];
             progressTaskObj.value=taskProgress;
 
-            progress.tasks.push(progressTaskObj)
+            progress.tasks.push(progressTaskObj);
         }
-        progress['total']=(totalDone/totalTasks).toFixed(2);
+        progress['total']=(totalDone/totalTasks * 100).toFixed(2);
         response.success(progress);
         console.log(progress);
     } catch(err){
