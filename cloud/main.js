@@ -82,24 +82,10 @@ Parse.Cloud.define("getStoryTasksByProjectID", function (request, response) {
     })
 });
 
-Parse.Cloud.define("getProjectProjectBar", function (request, response) {
-    var pipeline = {
-        group: { objectId: null, total: { $sum: '$story_points' } }
-    };
-    var query = new Parse.Query("UserStory");
-    query.equalTo("project", request.params.id);
-    query.aggregate(pipeline).then(function(res){
-        console.log(res);
-        response.success(res);
-    }).catch(function(error) {
-        console.log(error);
-        response.error(error);  
-    });
-});
 
 
 Parse.Cloud.define("getProjectProgressByProjectId", async function (request, response) {
-    var pipelineDone=[{group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$story_status", 1, 0] }}}}]
+    var pipelineDone=[{group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$task_status", 1, 0] }}}}]
     var pipelineTotal=[{group: {objectId: "$task_type",countTotal: {$sum: 1}}}]
     var progress ={};
     var totalDone=0;
@@ -184,7 +170,7 @@ Parse.Cloud.define("getStoryTasksByFeatureID", function (request, response) {
 });
 
 Parse.Cloud.define("getFeatureProgressByFeatureId", async function (request, response) {
-    var pipelineDone=[{group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$story_status", 1, 0] }}}}]
+    var pipelineDone=[{group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$task_status", 1, 0] }}}}]
     var pipelineTotal=[{group: {objectId: "$task_type",countTotal: {$sum: 1}}}]
     var progress ={};
     var totalDone=0;
@@ -205,6 +191,22 @@ Parse.Cloud.define("getFeatureProgressByFeatureId", async function (request, res
         response.error(err);
     }
 });
+
+Parse.Cloud.define("getFeatureStoryPointsByFeatureID", function (request, response) {
+    var pipeline = {
+        group: { objectId: null, total: { $sum: '$story_points' } }
+    };
+    var query = new Parse.Query("UserStory");
+    query.equalTo("project", request.params.id);
+    query.aggregate(pipeline).then(function(res){
+        console.log(res);
+        response.success(res);
+    }).catch(function(error) {
+        console.log(error);
+        response.error(error);  
+    });
+});
+
 
 // Histórias de Usuário
 Parse.Cloud.define("getUserStoryByID", function (request, response) {
@@ -256,26 +258,28 @@ Parse.Cloud.define("getStoryTaskByID", function (request, response) {
     });
 });
 
-// async function teste(){
-//     var pipelineDone=[{group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$story_status", 1, 0] }}}}]
-//     var pipelineTotal=[{group: {objectId: "$task_type",countTotal: {$sum: 1}}}]
-//     var progress ={};
-//     var totalDone=0;
-//     var totalTasks=0;
-//     var query = new Parse.Query("StoryTask");
-//     query.equalTo("project", 'LN8U15gPNj');
-//     try{
-//         var countDone=await query.aggregate(pipelineDone);
-//         var countTotal= await query.aggregate(pipelineTotal);
-//         for (let i=0; i<countTotal.length; i++){
-//             totalDone=totalDone+countDone[i]['countDone'];
-//             totalTasks=totalTasks+countTotal[i]['countTotal'];
-//             progress[countTotal[i]['objectId']]=countDone[i]['countDone'] / countTotal[i]['countTotal'];
-//         }
-//         progress['Total']=totalDone/totalTasks;
-//         console.log(progress)
-//     } catch(err){
-//         console.log(err)
-//     }
-// }
-// teste();
+async function teste(){
+    var pipelineDone=[{group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$task_status", 1, 0] }}}}]
+    var pipelineTotal=[{group: {objectId: "$task_type",countTotal: {$sum: 1}}}]
+    var progress ={};
+    var totalDone=0;
+    var totalTasks=0;
+    var query = new Parse.Query("StoryTask");
+    query.equalTo("project", 'LN8U15gPNj');
+    try{
+        var countDone=await query.aggregate(pipelineDone);
+        var countTotal= await query.aggregate(pipelineTotal);
+        console.log(countDone);
+        console.log(countTotal);
+        for (let i=0; i<countTotal.length; i++){
+            totalDone=totalDone+countDone[i]['countDone'];
+            totalTasks=totalTasks+countTotal[i]['countTotal'];
+            progress[countTotal[i]['objectId']]=countDone[i]['countDone'] / countTotal[i]['countTotal'];
+        }
+        progress['Total']=totalDone/totalTasks;
+        console.log(progress)
+    } catch(err){
+        console.log(err)
+    }
+}
+teste();
