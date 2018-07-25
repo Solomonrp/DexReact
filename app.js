@@ -48,10 +48,10 @@ var port = 1337;
 
 app.use(require('helmet')());
 var options={};
-options = {
-    cert: fs.readFileSync('/etc/letsencrypt/live/dexboardapi.dex.company/fullchain.pem'),
-    key: fs.readFileSync('/etc/letsencrypt/live/dexboardapi.dex.company/privkey.pem')
-};
+// options = {
+//     cert: fs.readFileSync('/etc/letsencrypt/live/dexboardapi.dex.company/fullchain.pem'),
+//     key: fs.readFileSync('/etc/letsencrypt/live/dexboardapi.dex.company/privkey.pem')
+// };
 
 
 const server = http.createServer(options, app).listen(port, function() {
