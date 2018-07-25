@@ -254,7 +254,7 @@ Parse.Cloud.define("getFeatureStoryPointsByFeatureID", function (request, respon
     query.equalTo("project", request.params.id);
     query.aggregate(pipeline).then(function(res){
         console.log(res[0].total.toFixed(1));
-        response.success(res);
+        response.success(res[0].total.toFixed(1));
     }).catch(function(error) {
         console.log(error);
         response.error(error);  
