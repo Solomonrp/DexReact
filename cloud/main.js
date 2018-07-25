@@ -94,6 +94,9 @@ Parse.Cloud.define("getProjectProgressByProjectId", async function (request, res
         {group: {objectId: "$task_type",countTotal: {$sum: 1}},}
     ]
     var progress ={};
+    var p=0;
+    progress.tasks=[];
+    var progressTaskObj;
     var totalDone=0;
     var totalTasks=0;
     var query = new Parse.Query("StoryTask");
@@ -101,14 +104,22 @@ Parse.Cloud.define("getProjectProgressByProjectId", async function (request, res
         var countDone=await query.aggregate(pipelineDone);
         var countTotal= await query.aggregate(pipelineTotal);
         for (let i=0; i<countTotal.length; i++){
+            p=0;
+            progressTaskObj={};
+
             totalDone=totalDone+countDone[i]['countDone'];
             totalTasks=totalTasks+countTotal[i]['countTotal'];
-            progress[countTotal[i]['objectId']]=(countDone[i]['countDone'] / countTotal[i]['countTotal'] * 100).toFixed(2);
+
+            taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(2);
+            progressTaskObj.name=countTotal[i]['objectId'];
+            progressTaskObj.value=taskProgress;
+
+            progress.tasks.push(progressTaskObj)
         }
-        progress['Total']=(totalDone/totalTasks * 100).toFixed(2);
-        response.success(progress);
+        progress['total']=(totalDone/totalTasks).toFixed(2);
+        console.log(progress)
     } catch(err){
-        response.error(err);
+        console.log(err)
     }
 });
 
@@ -200,6 +211,9 @@ Parse.Cloud.define("getFeatureProgressByFeatureId", async function (request, res
         {group: {objectId: "$task_type",countTotal: {$sum: 1}},}
     ]
     var progress ={};
+    var p=0;
+    progress.tasks=[];
+    var progressTaskObj;
     var totalDone=0;
     var totalTasks=0;
     var query = new Parse.Query("StoryTask");
@@ -207,14 +221,22 @@ Parse.Cloud.define("getFeatureProgressByFeatureId", async function (request, res
         var countDone=await query.aggregate(pipelineDone);
         var countTotal= await query.aggregate(pipelineTotal);
         for (let i=0; i<countTotal.length; i++){
+            p=0;
+            progressTaskObj={};
+
             totalDone=totalDone+countDone[i]['countDone'];
             totalTasks=totalTasks+countTotal[i]['countTotal'];
-            progress[countTotal[i]['objectId']]=(countDone[i]['countDone'] / countTotal[i]['countTotal']* 100).toFixed(2);
+
+            taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(2);
+            progressTaskObj.name=countTotal[i]['objectId'];
+            progressTaskObj.value=taskProgress;
+
+            progress.tasks.push(progressTaskObj)
         }
-        progress['Total']=(totalDone/totalTasks * 100).toFixed(2);
-        response.success(progress);
+        progress['total']=(totalDone/totalTasks).toFixed(2);
+        console.log(progress)
     } catch(err){
-        response.error(err);
+        console.log(err)
     }
 });
 
@@ -285,34 +307,42 @@ Parse.Cloud.define("getStoryTaskByID", function (request, response) {
     });
 });
 
-// async function teste(){
-//     var pipelineDone=[
-//         {match:{project: 'LN8U15gPNj'}},
-//         {group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$task_status", 1, 0] }}}}
-//     ]
-//     var pipelineTotal=[
-//         {match:{project: 'LN8U15gPNj'}},
-//         {group: {objectId: "$task_type",countTotal: {$sum: 1}},}
-//     ]
-//     var progress ={};
-//     var totalDone=0;
-//     var totalTasks=0;
-//     var query = new Parse.Query("StoryTask");
-//     // query.equalTo("feature", 'bVCJ0KZdQ6');
-//     try{
-//         var countDone=await query.aggregate(pipelineDone);
-//         var countTotal= await query.aggregate(pipelineTotal);
-//         console.log(countDone);
-//         console.log(countTotal);
-//         for (let i=0; i<countTotal.length; i++){
-//             totalDone=totalDone+countDone[i]['countDone'];
-//             totalTasks=totalTasks+countTotal[i]['countTotal'];
-//             progress[countTotal[i]['objectId']]=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(2);
-//         }
-//         progress['Total']=(totalDone/totalTasks).toFixed(2);
-//         console.log(progress)
-//     } catch(err){
-//         console.log(err)
-//     }
-// }
-// teste();
+async function teste(){
+    var pipelineDone=[
+        {match:{project: 'LN8U15gPNj'}},
+        {group: {objectId: "$task_type",countDone: {$sum: { $cond: ["$task_status", 1, 0] }}}}
+    ]
+    var pipelineTotal=[
+        {match:{project: 'LN8U15gPNj'}},
+        {group: {objectId: "$task_type",countTotal: {$sum: 1}},}
+    ]
+    var progress ={};
+    var p=0;
+    progress.tasks=[];
+    var progressTaskObj;
+    var totalDone=0;
+    var totalTasks=0;
+    var query = new Parse.Query("StoryTask");
+    try{
+        var countDone=await query.aggregate(pipelineDone);
+        var countTotal= await query.aggregate(pipelineTotal);
+        for (let i=0; i<countTotal.length; i++){
+            p=0;
+            progressTaskObj={};
+
+            totalDone=totalDone+countDone[i]['countDone'];
+            totalTasks=totalTasks+countTotal[i]['countTotal'];
+
+            taskProgress=(countDone[i]['countDone'] / countTotal[i]['countTotal']).toFixed(2);
+            progressTaskObj.name=countTotal[i]['objectId'];
+            progressTaskObj.value=taskProgress;
+
+            progress.tasks.push(progressTaskObj)
+        }
+        progress['total']=(totalDone/totalTasks).toFixed(2);
+        console.log(progress)
+    } catch(err){
+        console.log(err)
+    }
+}
+teste();
