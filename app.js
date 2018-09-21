@@ -3,8 +3,7 @@ var ParseServer = require('parse-server').ParseServer;
 var ParseDashboard = require('parse-dashboard');
 
 const http = require('https');
-// const http = require('https');
-// const https = require('http');
+// const http = require('http');
 const fs = require('fs');
 
 const PROD_URL="https://dexboardapi.dex.company:1337/parse";

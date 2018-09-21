@@ -312,6 +312,43 @@ Parse.Cloud.define("getStoryTaskByID", function (request, response) {
     });
 });
 
+// Documentos
+Parse.Cloud.define("getDocumentsByProjectID", function (request, response) {
+
+    var pipeline = [
+        { match: { project: request.params.id } },
+        { group: { objectId: "$type" } }
+    ];
+    let query = new Parse.Query("Document");
+    query.equalTo("project", request.params.id);
+    query.aggregate(pipeline).then((types) => {
+        console.log(types);
+        let query2 = new Parse.Query("Document");
+        query2.equalTo("project", request.params.id);
+        query2.find({
+            success: (documents) => {
+                console.log(documents);
+                let res = {};
+                for(let i=0; i<types.length; i++) {
+                    res[types[i].objectId] = []; 
+                }
+                for(let i=0; i<documents.length; i++) {
+                    res[documents[i].get('type')].push(documents[i]);
+                }
+                console.log(res);
+                response.success(res);
+            },
+            error:function(error){
+                console.log(error);
+                response.error(error);  
+            }
+        });
+    }).catch(function(error) {
+        console.log(error);
+        response.error(error);  
+    });
+});
+
 // async function teste(){
     // var pipelineDone=[
     //     {match:{project: 'LN8U15gPNj'}},
