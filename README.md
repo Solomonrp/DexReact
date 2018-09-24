@@ -2,9 +2,11 @@
 
 API para o teste de desenvolvedor Dexter!
 
-    Este projeto foi criado com o objetivo de testar as habilidade técnicas, capacidades de aprendizado e como um candidato a Dex lida com os desafios propostos! 
+    Este projeto foi criado com o objetivo de testar as habilidade técnicas, capacidades de aprendizado
+    e como um candidato a Dex lida com os desafios propostos! 
 
-    Queremos que você clone este projeto, rode ele localmente e se comunique com a API para coletar os dados e compor as páginas. 
+    Queremos que você clone este projeto, rode ele localmente e se comunique com a API para coletar os
+    dados e compor as páginas. 
 
 Tá, mas como usar a API? Como ela foi feita? E o banco de dados? 
 
