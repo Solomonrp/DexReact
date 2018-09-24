@@ -28,6 +28,7 @@ var dashboard = new ParseDashboard({
 var app = express();
 
 app.use('/dashboard', dashboard);
+app.use(express.static('imgs'));
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
