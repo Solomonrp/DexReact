@@ -1,27 +1,5 @@
 // Cloud Code entry point
 
-// Usuário
-Parse.Cloud.define("getUserByID", function (request, response) {
-    const user=request.user;
-    response.success(user);
-});
-
-Parse.Cloud.define("getProjectsByUserID", function (request, response) {
-    const user = request.user;
-    var relation = user.relation('projects');
-    var query = relation.query();
-    query.find({
-        success: function(projects) {
-            console.log(projects);
-            response.success(projects);
-        },
-        error:function(error){
-            console.log(error);
-            response.error(error);  
-        }
-    });
-});
-
 // FOODS
 Parse.Cloud.define("getAllFoods", function (request, response) {
     var query = new Parse.Query("Food");
