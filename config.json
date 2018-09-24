@@ -1,7 +1,7 @@
 {
-  "appId": "OSGiFZBrXxNLjN3gYDPsgi7P4a0j6fzcc2iaCKac",
-  "masterKey": "k8xm42UVuIP51wR2DswLY8NL3zgWfev8AuKUUjp3",
-  "appName": "StatusBoard",
+  "appId": "OSGiFZBrXxNLjN3gYDPsgi7P4a0j6fzcc2iaCKga",
+  "masterKey": "k8xm42UVuIP51wR2DswLY8NL3zgWfev8AuKUUjga",
+  "appName": "TesteDexter",
   "cloud": "./cloud/main",
-  "databaseURI": "mongodb://status-super:DFGyp>r38ZzudNJekXrV5r@ds143451.mlab.com:43451/status-board"
+  "databaseURI": "mongodb://dex.company:DEX.Company70@ds135252.mlab.com:35252/teste-dexter"
 }

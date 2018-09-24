@@ -1,6 +1,6 @@
 {
-  "name": "statusboard",
-  "description": "parse-server for StatusBoard",
+  "name": "testedexter",
+  "description": "parse-server for teste dexter",
   "scripts": {
     "start": "parse-server config.json"
   },
