@@ -1,3 +1,9 @@
+# teste-dexter-server Alterações
+
+Realizei algumas alterações para não utilizar as API Rest do parse server e montar as funções em javascrip com o parse server.
+
+Funções: Login, Private Route, Signup
+
 # teste-dexter-server
 
 API para o teste de desenvolvedor Dexter!
